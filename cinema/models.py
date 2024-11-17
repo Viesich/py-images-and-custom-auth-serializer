@@ -8,7 +8,10 @@ from django.utils.text import slugify
 
 
 def movie_image_path(instance: "Movie", filename: str) -> pathlib.Path:
-    filename = f"{slugify(instance.title)}-{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+    filename = (
+        f"{slugify(instance.title)}-"
+        f"{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+    )
     return pathlib.Path("uploads/movies/" / pathlib.Path(filename))
 
 
@@ -74,7 +77,7 @@ class MovieSession(models.Model):
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
     )
 
     def __str__(self):
